@@ -12,12 +12,16 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v3
+      - name: Installing package list
+        run: apt list --installed    
       - name: Remove Chrome
         run: sudo apt purge google-chrome-stable
       - name: Remove default Chromium
         run: sudo apt purge chromium-browser
-      - name: Install a new Chromium
-        run: sudo apt install -y chromium-browser
+      # - name: Install a new Chromium
+      #   run: sudo apt install -y chromium-browser
+      - name: Chrome Autoinstall
+        run: pip install chromedriver-autoinstaller
       - name: Run Python script
         env:
           BNF_USER: ${{ secrets.BNF_USER }}

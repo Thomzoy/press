@@ -4,11 +4,15 @@ import os
 import base64
 import traceback
 
+import chromedriver_autoinstaller
+
 from nav.login import login_and_navigate
 from nav.img import Images
 from nav.pdf import PDF
 from nav.google import Google
 from nav.journals import JOURNALS_FOLDER_ID
+
+chromedriver_autoinstaller.install()
 
 LOGIN_URL = "https://authentification.bnf.fr/login"
 LANDING_PAGE_URL = "https://bnf.idm.oclc.org/login?url=https://nouveau.europresse.com/access/ip/default.aspx?un=D000067U_1&sa=D&sntz=1&usg=AOvVaw359KkJUvjTjlJuRfT-OlnE"
