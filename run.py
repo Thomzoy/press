@@ -38,6 +38,7 @@ def get_journal():
     BNF_USER, BNF_TOKEN, DRIVE_TOKEN = get_tokens()
 
     for journal_id in JOURNALS_FOLDER_ID.keys():
+        print(f"Getting journal {journal_id}")
         driver = login_and_navigate(
             LOGIN_URL,
             BNF_USER,
