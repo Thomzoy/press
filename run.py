@@ -19,9 +19,9 @@ journals_path.mkdir(parents=True, exist_ok=True)
 
 def get_tokens():
     BNF_USER = os.environ.get("BNF_USER", None)
-    print(f"USING: {BNF_USER}")
     BNF_TOKEN = os.environ.get("BNF_TOKEN", None)
     B64_DRIVE_TOKEN = os.environ.get("B64_DRIVE_TOKEN", None)
+    print(f"LEN: {len(B64_DRIVE_TOKEN)}")
     if B64_DRIVE_TOKEN is None:
         creds_path = Path("./credentials.json")
         if creds_path.exists():
