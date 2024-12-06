@@ -41,12 +41,14 @@ def get_tokens():
 
 def get_journal():
     BNF_USER, BNF_TOKEN, DRIVE_TOKEN = get_tokens()
+    print("Login...")
     driver = login_and_navigate(
         LOGIN_URL,
         BNF_USER,
         BNF_TOKEN,
         TARGET_PAGES,
     )
+    print("Done")
     for journal_id in JOURNALS_FOLDER_ID.keys():
         print(f"Getting journal {journal_id}")
         if not driver.service.is_connectable():
