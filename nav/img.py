@@ -190,14 +190,13 @@ class Images:
 
                 img = self.driver.find_element(By.CLASS_NAME, "viewer-move")
                 n_try = 0
-                while img.get_attribute("src") == img_src:
+                while (img.get_attribute("src") == img_src) and (n_try <= 5):
                     print(f"Try n° {n_try}")
                     time.sleep(2)
                     img = self.driver.find_element(By.CLASS_NAME, "viewer-move")
                     n_try += 1
-                    if n_try > 5:
+                    if n_try == 5:
                         print("No source change")
-                        continue
 
                 # wait = WebDriverWait(driver, 10)
                 # img = wait.until(
