@@ -1,0 +1,85 @@
+from pathlib import Path
+from googleapiclient.discovery import build
+from googleapiclient.http import MediaFileUpload
+from google.oauth2 import service_account
+from googleapiclient.errors import HttpError
+
+
+from .journals import JOURNALS_FOLDER_ID
+
+
+class Google:
+    def __init__(
+        self,
+        journal_id,
+        credentials,
+    ):
+        self.journal_id = journal_id
+
+        self.drive_folder_id = JOURNALS_FOLDER_ID[journal_id]
+        self.credentials = service_account.Credentials.from_service_account_info(
+            credentials
+        )
+
+        self.service = build("drive", "v3", credentials=self.credentials)
+
+    def run(
+        self,
+        pdf_path,
+        pdf_name=None,
+    ):
+        self.pdf_path = Path(pdf_path).resolve()
+        if not self.pdf_path.exists():
+            raise FileNotFoundError(f"File {self.pdf_path} not found !")
+        self.pdf_name = pdf_name if pdf_name is not None else pdf_path.name
+
+        try:
+            # Prepare file metadata
+            file_metadata = {
+                "name": self.pdf_name,
+                "parents": [self.drive_folder_id],
+            }
+
+            # Create media file upload object
+            media = MediaFileUpload(self.pdf_path, resumable=True)
+
+            # Execute file upload
+            request = self.service.files().create(
+                body=file_metadata,
+                media_body=media,
+                fields="id, webViewLink, webContentLink",
+            )
+
+            response = None
+            while response is None:
+                status, response = request.next_chunk()
+                if status:
+                    print(f"Uploaded {int(status.progress() * 100)}%")
+
+            # Verify file details
+            uploaded_file = (
+                self.service.files()
+                .get(
+                    fileId=response["id"],
+                    fields="id, name, size, mimeType, webViewLink, webContentLink",
+                )
+                .execute()
+            )
+
+            return uploaded_file
+
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return None
+
+    def get_existing_journal_dates(self):
+        try:
+            query = f"'{self.drive_folder_id}' in parents and trashed = false"
+            results = (
+                self.service.files().list(q=query, fields="files(id, name)").execute()
+            )
+            files = [file["name"].split(".pdf")[0] for file in results.get("files", [])]
+            return files
+        except HttpError as error:
+            print(f"An error occurred: {error}")
+            return []
