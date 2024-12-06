@@ -2,7 +2,6 @@ import pymupdf
 from pathlib import Path
 from tqdm import tqdm
 
-
 class PDF:
     def __init__(
         self,

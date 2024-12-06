@@ -1,8 +1,7 @@
 from collections import defaultdict
-
-from bs4 import BeautifulSoup
 import json
 
+from bs4 import BeautifulSoup
 import pandas as pd
 
 # MD_P : Le monde diplo
