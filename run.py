@@ -12,8 +12,6 @@ from nav.pdf import PDF
 from nav.google import Google
 from nav.journals import JOURNALS_FOLDER_ID
 
-chromedriver_autoinstaller.install()
-
 LOGIN_URL = "https://authentification.bnf.fr/login"
 LANDING_PAGE_URL = "https://bnf.idm.oclc.org/login?url=https://nouveau.europresse.com/access/ip/default.aspx?un=D000067U_1&sa=D&sntz=1&usg=AOvVaw359KkJUvjTjlJuRfT-OlnE"
 TARGET_PAGES = [LANDING_PAGE_URL]
@@ -103,4 +101,7 @@ def get_journal():
 
 
 if __name__ == "__main__":
+    print("Installing Chrome")
+    chromedriver_autoinstaller.install()
+    print("Done")
     get_journal()
