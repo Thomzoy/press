@@ -1,3 +1,4 @@
+import traceback
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -79,6 +80,7 @@ def login_and_navigate(
             fct(driver)
 
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f"An login error occurred: {e}")
+        traceback.print_exc()
 
     return driver

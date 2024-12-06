@@ -1,4 +1,5 @@
 from pathlib import Path
+import traceback
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 from google.oauth2 import service_account
@@ -44,12 +45,13 @@ class Google:
             media = MediaFileUpload(self.pdf_path, resumable=True)
 
             # Execute file upload
+            print("Uploading...")
             request = self.service.files().create(
                 body=file_metadata,
                 media_body=media,
                 fields="id, webViewLink, webContentLink",
             )
-
+            print("Done, checking...")
             response = None
             while response is None:
                 status, response = request.next_chunk()
@@ -65,6 +67,7 @@ class Google:
                 )
                 .execute()
             )
+            print("Done checking")
 
             return uploaded_file
 
@@ -74,12 +77,15 @@ class Google:
 
     def get_existing_journal_dates(self):
         try:
+            print("Getting existing dates")
             query = f"'{self.drive_folder_id}' in parents and trashed = false"
             results = (
                 self.service.files().list(q=query, fields="files(id, name)").execute()
             )
             files = [file["name"].split(".pdf")[0] for file in results.get("files", [])]
+            print(f"Existing: {files}")
             return files
         except HttpError as error:
-            print(f"An error occurred: {error}")
+            print(f"An error occurred when loading existing dates: {error}")
+            traceback.print_exc()
             return []

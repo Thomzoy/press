@@ -7,8 +7,10 @@ class PDF:
         self,
         pngs_path,
         output_path=None,
+        delete_pngs_when_done: bool=True,
     ):
         self.pngs_path = Path(pngs_path).resolve()
+        self.delete_pngs_when_done = True
 
         if output_path is None:
             output_path = pngs_path / "journal.pdf"
@@ -34,6 +36,9 @@ class PDF:
                 height=rect.height,
             )
             page.show_pdf_page(rect, imgPDF, 0)
+            if self.delete_pngs_when_done:
+                png.unlink()
 
+        print("Saving...")
         doc.save(self.output_path)
         print(f"Saved to {self.output_path}")
