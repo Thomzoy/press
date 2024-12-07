@@ -21,7 +21,9 @@ jobs:
           BNF_USER: ${{ secrets.BNF_USER }}
           BNF_TOKEN: ${{ secrets.BNF_TOKEN }}
           B64_DRIVE_TOKEN: ${{ secrets.B64_DRIVE_TOKEN }}
-        run: python run.py
+        run: |
+          echo "Start"
+          python run.py
       - name: Store PDFs as artifacts
         uses: actions/upload-artifact@v4
         with:
