@@ -24,6 +24,7 @@ jobs:
         run: python run.py
 
   upload:
+    needs: [create]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
