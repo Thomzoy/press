@@ -44,12 +44,11 @@ jobs:
         run: |
           pwd
           ls
-          cd Journaux
       - name: Mirror Directory Structure
         uses: adityak74/google-drive-upload-git-action@main
         with:
           credentials: ${{ secrets.B64_DRIVE_TOKEN }}
-          filename: ./*/*.pdf
-          folderId: 1nV8vTKtctcXa-iF8tp45pykTxzooY9Fn
+          filename: ./Journaux/*/*.pdf
+          folderId: ${{ secrets.folderId }}
           overwrite: "false"
           mirrorDirectoryStructure: "true"
