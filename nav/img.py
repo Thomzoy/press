@@ -155,9 +155,6 @@ class Images:
             if page_index in existing_images:
                 print("Page already exists, skipping")
                 continue
-
-            if page_index > 3:
-                return "done"
             try:
                 parent_li = span.find_element(By.XPATH, "./ancestor::li")
                 print(parent_li.is_displayed())

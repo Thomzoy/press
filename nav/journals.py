@@ -15,11 +15,11 @@ JOURNALS_FOLDER_ID = defaultdict(
     LM_P="LeMonde",
     LI_P="Liberation",
     HU_P="Humanite",
-    #IL_P="CourrierInternational",
-    #MD_P="LeMondeDiplomatique",
-    #OB_P="NouvelObs",
-    #SCA_P="ScienceEtAvenir",
-    #MSJ_P="ScienceEtVie",
+    IL_P="CourrierInternational",
+    MD_P="LeMondeDiplomatique",
+    OB_P="NouvelObs",
+    SCA_P="ScienceEtAvenir",
+    MSJ_P="ScienceEtVie",
 )
 
 

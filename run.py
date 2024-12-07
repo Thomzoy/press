@@ -75,7 +75,7 @@ def get_journal():
                 overwrite=False,
                 existing_dates=existing_dates,
             )
-            result = images.run(n_try=1)
+            result = images.run(n_try=4)
             if result == "skip":
                 print(f"Edition {images.date} of {journal_id} already saved !")
                 continue
