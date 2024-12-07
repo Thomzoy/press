@@ -75,7 +75,7 @@ def get_journal():
                 overwrite=False,
                 existing_dates=existing_dates,
             )
-            result = images.run(n_try=4)
+            result = images.run(n_try=1)
             if result == "skip":
                 print(f"Edition {images.date} of {journal_id} already saved !")
                 continue
@@ -85,7 +85,7 @@ def get_journal():
                 print("All good!")
             pdf = PDF(
                 pngs_path=images.images_path,
-                output_path=images.images_path / f"{images.date}.pdf",
+                output_path=images.images_path.parent / f"{images.date}.pdf",
             )
             pdf.run()
         except Exception as e:

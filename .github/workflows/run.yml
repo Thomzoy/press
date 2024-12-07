@@ -45,7 +45,7 @@ jobs:
         uses: adityak74/google-drive-upload-git-action@main
         with:
           credentials: ${{ secrets.B64_DRIVE_TOKEN }}
-          filename: Journaux/*/*
+          filename: Journaux/*/*.pdf
           folderId: ${{ secrets.folderId }}
           overwrite: "false"
-          mirrorDirectoryStructure: "true"
+          mirrorDirectoryStructure: "false"

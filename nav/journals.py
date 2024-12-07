@@ -12,7 +12,7 @@ JOURNAL_URL = "https://nouveau-europresse-com.bnf.idm.oclc.org/Pdf/Edition?sourc
 JOURNALS_FOLDER_ID = defaultdict(
     lambda: ("1cX0ZYAPCH5QMPzjwNiDdo6jijRRL5_MY", "Inconnu"),
     LM_P=("1U7WvK7krTk_szGl62hqoJmdhYBe-Mm0Z", "Le Monde"),
-    LI_P=("1qSnTfziuScpDOKoCEkZLZLwAPc9QqRAY", "Libération"),
+    #LI_P=("1qSnTfziuScpDOKoCEkZLZLwAPc9QqRAY", "Libération"),
     #HU_P=("1H1IHeNS15_WjDLN9iUL2lrx5WJ99TAxm", "L'Humanité"),
     #IL_P=("1b-ueLbMw8mJl3FhXi4Zjw-WFtxje6r5j", "Courrier International"),
     #MD_P=("1hnzXVVyPnCSZdE3uR14P2cSXwVasXZi9", "Le Monde Diplomatique"),
