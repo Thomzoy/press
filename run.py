@@ -85,7 +85,7 @@ def get_journal():
                 print("All good!")
             pdf = PDF(
                 pngs_path=images.images_path,
-                output_path=images.images_path.parent / f"{images.date}.pdf",
+                output_path=images.images_path.parent.parent / f"{images.date}.pdf",
             )
             pdf.run()
         except Exception as e:

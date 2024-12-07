@@ -39,6 +39,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: pdfs-folders
+          path: Journaux
       - name: Show structure
         run: |
           pwd
