@@ -22,6 +22,11 @@ jobs:
           BNF_TOKEN: ${{ secrets.BNF_TOKEN }}
           B64_DRIVE_TOKEN: ${{ secrets.B64_DRIVE_TOKEN }}
         run: python run.py
+      - name: Store PDFs as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: pdfs-folders
+          path: ./Journaux
 
   upload:
     needs: [create]
@@ -29,6 +34,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Download PDFs artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: pdfs-folders
+          path: ./Journaux
       - name: Mirror Directory Structure
         uses: adityak74/google-drive-upload-git-action@main
         with:
