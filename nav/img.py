@@ -15,9 +15,9 @@ from bs4 import BeautifulSoup
 from dateparser import DateDataParser
 
 # from .pdf import make_pdf
-from .journals import JOURNAL_URL
+from .journals import JOURNAL_URL, JOURNALS_FOLDER_ID
 
-BASE_PATH = Path("journals").resolve()
+BASE_PATH = Path("Journaux").resolve()
 
 
 class src_change(object):
@@ -60,16 +60,18 @@ class Images:
     ):
         self.driver = driver
         self.journal_id = journal_id
+        self.journal_name = JOURNALS_FOLDER_ID[journal_id]
         self.wait_time = wait_time
         self.limit = limit
         self.do_screenshot = do_screenshot
         self.overwrite = overwrite
         self.existing_dates = existing_dates
 
-        self.base_images_path = BASE_PATH / f"{journal_id}/images"
+        self.base_images_path = BASE_PATH / f"{self.journal_name}/images"
 
-        self.screenshot_path = BASE_PATH / f"{journal_id}/screenshots"
-        self.screenshot_path.mkdir(parents=True, exist_ok=True)
+        self.screenshot_path = BASE_PATH / f"{self.journal_name}/screenshots"
+        if self.do_screenshot:
+            self.screenshot_path.mkdir(parents=True, exist_ok=True)
 
         self.journal_url = JOURNAL_URL.format(journal_id=journal_id)
         self.all_saved = True
@@ -110,7 +112,7 @@ class Images:
         self.images_path.mkdir(parents=True, exist_ok=True)
 
         if self.date in self.existing_dates:
-            print(f"Edition from {self.journal_id} / {self.date} already saved !")
+            print(f"Edition from {self.journal_name} / {self.date} already saved !")
             return "skip"
 
         existing_images = (

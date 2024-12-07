@@ -4,25 +4,21 @@ import json
 from bs4 import BeautifulSoup
 import pandas as pd
 
-# MD_P : Le monde diplo
-# IL_P : courrier international
-# HU_P : humanité
-
 JOURNAL_PATH = "journals.csv"
 JOURNAL_SEARCH_URL = (
     "https://nouveau-europresse-com.bnf.idm.oclc.org/Pdf/GetInitialResults"
 )
 JOURNAL_URL = "https://nouveau-europresse-com.bnf.idm.oclc.org/Pdf/Edition?sourceCode={journal_id}"
 JOURNALS_FOLDER_ID = defaultdict(
-    lambda: "1cX0ZYAPCH5QMPzjwNiDdo6jijRRL5_MY",
-    LM_P="1U7WvK7krTk_szGl62hqoJmdhYBe-Mm0Z", # Le Monde
-    LI_P="1qSnTfziuScpDOKoCEkZLZLwAPc9QqRAY", # Libé
-    HU_P="1H1IHeNS15_WjDLN9iUL2lrx5WJ99TAxm", # L'Huma
-    IL_P="1b-ueLbMw8mJl3FhXi4Zjw-WFtxje6r5j", # Courrier Inter.
-    MD_P="1hnzXVVyPnCSZdE3uR14P2cSXwVasXZi9", # Le Monde Diplo
-    OB_P="15UGAh0HR87WRANbQm9rzH8X1If6jqikw", # Nouvel Obs
-    SCA_P="1hyeILhVZRPh_GduS6khT_PFB3Bco9jU9", # Science&Avenir
-    MSJ_P="141zC5Hb3tT3EYaze4gQYZDjXPYZL0rnw", # Science&Vie
+    lambda: ("1cX0ZYAPCH5QMPzjwNiDdo6jijRRL5_MY", "Inconnu"),
+    LM_P=("1U7WvK7krTk_szGl62hqoJmdhYBe-Mm0Z", "Le Monde"),
+    LI_P=("1qSnTfziuScpDOKoCEkZLZLwAPc9QqRAY", "Libération"),
+    #HU_P=("1H1IHeNS15_WjDLN9iUL2lrx5WJ99TAxm", "L'Humanité"),
+    #IL_P=("1b-ueLbMw8mJl3FhXi4Zjw-WFtxje6r5j", "Courrier International"),
+    #MD_P=("1hnzXVVyPnCSZdE3uR14P2cSXwVasXZi9", "Le Monde Diplomatique"),
+    #OB_P=("15UGAh0HR87WRANbQm9rzH8X1If6jqikw", "Nouvel Obs"),
+    #SCA_P=("1hyeILhVZRPh_GduS6khT_PFB3Bco9jU9", "Science&Avenir"),
+    #MSJ_P=("141zC5Hb3tT3EYaze4gQYZDjXPYZL0rnw", "Science&Vie"),
 )
 
 

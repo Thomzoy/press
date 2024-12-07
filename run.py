@@ -4,7 +4,7 @@ import os
 import base64
 import traceback
 
-import chromedriver_autoinstaller
+# import chromedriver_autoinstaller
 
 from nav.login import login_and_navigate
 from nav.img import Images
@@ -88,10 +88,6 @@ def get_journal():
                 output_path=images.images_path / f"{images.date}.pdf",
             )
             pdf.run()
-            file = google.run(
-                pdf_path=pdf.output_path,
-            )
-            print(file["webViewLink"])
         except Exception as e:
             print(f"An error occurred: {e}")
             traceback.print_exc()
@@ -101,7 +97,4 @@ def get_journal():
 
 
 if __name__ == "__main__":
-    print("Installing Chrome")
-    chromedriver_autoinstaller.install()
-    print("Done")
     get_journal()
