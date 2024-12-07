@@ -38,12 +38,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: pdfs-folders
-          path: ./press/Journaux
+          path: ./Journaux
       - name: Mirror Directory Structure
         uses: adityak74/google-drive-upload-git-action@main
         with:
           credentials: ${{ secrets.B64_DRIVE_TOKEN }}
-          filename: Journaux/*/*.pdf
+          filename: ./Journaux/*/*.pdf
           folderId: ${{ secrets.folderId }}
           overwrite: "false"
           mirrorDirectoryStructure: "false"
