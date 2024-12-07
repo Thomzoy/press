@@ -43,7 +43,7 @@ jobs:
         uses: adityak74/google-drive-upload-git-action@main
         with:
           credentials: ${{ secrets.B64_DRIVE_TOKEN }}
-          filename: ./Journaux/*/*.pdf
+          filename: /home/runner/work/press/press/Journaux/*/*.pdf
           folderId: ${{ secrets.folderId }}
           overwrite: "false"
           mirrorDirectoryStructure: "false"
