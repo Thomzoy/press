@@ -15,11 +15,11 @@ JOURNALS_FOLDER_ID = defaultdict(
     LM_P="Le Monde",
     LI_P="Libération",
     HU_P="L'Humanité",
-    IL_P="Courrier International",
-    MD_P="Le Monde Diplomatique",
-    OB_P="Nouvel Obs",
-    SCA_P="Science&Avenir",
-    MSJ_P="Science&Vie",
+    #IL_P="Courrier International",
+    #MD_P="Le Monde Diplomatique",
+    #OB_P="Nouvel Obs",
+    #SCA_P="Science&Avenir",
+    #MSJ_P="Science&Vie",
 )
 
 
