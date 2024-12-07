@@ -30,9 +30,12 @@ class Google:
             f"name = '{self.journal_name}' and "
             "mimeType = 'application/vnd.google-apps.folder' and trashed = false"
         )
-        response = self.service.files().list(
-            q=query, spaces="drive", fields="files(id, name)", pageSize=10
-        ).execute()
+        try:
+            response = self.service.files().list(
+                q=query, spaces="drive", fields="files(id, name)", pageSize=10
+            ).execute()
+        except HttpError:
+            return None
         
         files = response.get('files', [])
         if not files:
