@@ -12,14 +12,14 @@ JOURNAL_URL = "https://nouveau-europresse-com.bnf.idm.oclc.org/Pdf/Edition?sourc
 BASE_JOURNAL_DRIVE_FOLDER = "1WtI0PsYLENi3pijdLNDrSyj95AHQHDwi"
 JOURNALS_FOLDER_ID = defaultdict(
     lambda: "Inconnu",
-    LM_P="Le Monde",
-    LI_P="Libération",
-    HU_P="L'Humanité",
-    #IL_P="Courrier International",
-    #MD_P="Le Monde Diplomatique",
-    #OB_P="Nouvel Obs",
-    #SCA_P="Science&Avenir",
-    #MSJ_P="Science&Vie",
+    LM_P="LeMonde",
+    LI_P="Liberation",
+    HU_P="Humanite",
+    #IL_P="CourrierInternational",
+    #MD_P="LeMondeDiplomatique",
+    #OB_P="NouvelObs",
+    #SCA_P="ScienceEtAvenir",
+    #MSJ_P="ScienceEtVie",
 )
 
 
