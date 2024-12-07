@@ -50,5 +50,5 @@ jobs:
           credentials: ${{ secrets.B64_DRIVE_TOKEN }}
           filename: ./Journaux/*/*.pdf
           folderId: ${{ secrets.folderId }}
-          overwrite: "true"
+          overwrite: "false"
           mirrorDirectoryStructure: "true"
