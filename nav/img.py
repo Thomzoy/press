@@ -60,7 +60,7 @@ class Images:
     ):
         self.driver = driver
         self.journal_id = journal_id
-        self.journal_name = JOURNALS_FOLDER_ID[journal_id][1]
+        self.journal_name = JOURNALS_FOLDER_ID[journal_id]
         self.wait_time = wait_time
         self.limit = limit
         self.do_screenshot = do_screenshot

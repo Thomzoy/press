@@ -6,7 +6,7 @@ from google.oauth2 import service_account
 from googleapiclient.errors import HttpError
 
 
-from .journals import JOURNALS_FOLDER_ID
+from .journals import JOURNALS_FOLDER_ID, BASE_JOURNAL_DRIVE_FOLDER
 
 
 class Google:
@@ -16,14 +16,33 @@ class Google:
         credentials,
     ):
         self.journal_id = journal_id
-        journal = JOURNALS_FOLDER_ID[journal_id]
-        self.drive_folder_id = journal[0]
-        self.journal_name = journal[1]
+        self.journal_name = JOURNALS_FOLDER_ID[journal_id]
         self.credentials = service_account.Credentials.from_service_account_info(
             credentials
         )
 
         self.service = build("drive", "v3", credentials=self.credentials)
+        self.journal_drive_folder = self.get_journal_drive_path()
+
+    def get_journal_drive_path(self):
+        query = (
+            f"'{BASE_JOURNAL_DRIVE_FOLDER}' in parents and "
+            f"name = '{self.journal_name}' and "
+            "mimeType = 'application/vnd.google-apps.folder' and trashed = false"
+        )
+        response = self.service.files().list(
+            q=query, spaces="drive", fields="files(id, name)", pageSize=10
+        ).execute()
+        
+        files = response.get('files', [])
+        if not files:
+            print(f"Folder for {self.journal_name} not found.")
+            return None
+        
+        # Assuming no duplicate folder names
+        folder_id = files[0]['id']
+        print(f"Found folder: {files[0]['name']} with ID: {folder_id}")
+        return folder_id
 
     def run(
         self,
@@ -39,7 +58,7 @@ class Google:
             # Prepare file metadata
             file_metadata = {
                 "name": self.pdf_name,
-                "parents": [self.drive_folder_id],
+                "parents": [self.journal_drive_folder],
             }
 
             # Create media file upload object
@@ -77,9 +96,12 @@ class Google:
             return None
 
     def get_existing_journal_dates(self):
+        if self.journal_drive_folder is None:
+            print(f"Folder for {self.journal_name} doesn't exist")
+            return []
         try:
             print(f"Getting existing dates for {self.journal_name}")
-            query = f"'{self.drive_folder_id}' in parents and trashed = false"
+            query = f"'{self.journal_drive_folder}' in parents and trashed = false"
             results = (
                 self.service.files().list(q=query, fields="files(id, name)").execute()
             )
