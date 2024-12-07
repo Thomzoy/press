@@ -16,8 +16,9 @@ class Google:
         credentials,
     ):
         self.journal_id = journal_id
-
-        self.drive_folder_id = JOURNALS_FOLDER_ID[journal_id]
+        journal = JOURNALS_FOLDER_ID[journal_id]
+        self.drive_folder_id = journal[0]
+        self.journal_name = journal[1]
         self.credentials = service_account.Credentials.from_service_account_info(
             credentials
         )
@@ -77,7 +78,7 @@ class Google:
 
     def get_existing_journal_dates(self):
         try:
-            print("Getting existing dates")
+            print(f"Getting existing dates for {self.journal_name}")
             query = f"'{self.drive_folder_id}' in parents and trashed = false"
             results = (
                 self.service.files().list(q=query, fields="files(id, name)").execute()
