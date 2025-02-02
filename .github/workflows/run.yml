@@ -1,8 +1,8 @@
 name: Create PDFs
 
 on:
-  schedule:
-    - cron: '0 0 * * *' # Midnight
+  #schedule:
+  #  - cron: '0 0 * * *' # Midnight
   workflow_dispatch:
 
 jobs:
