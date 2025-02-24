@@ -40,6 +40,7 @@ def get_tokens():
 def get_journal():
     BNF_USER, BNF_TOKEN, DRIVE_TOKEN = get_tokens()
     print("Login...")
+    test = "".join(c for c in BNF_TOKEN)
     print(BNF_TOKEN)
     return
     driver = login_and_navigate(
