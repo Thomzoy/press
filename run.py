@@ -3,6 +3,8 @@ from pathlib import Path
 import os
 import base64
 import traceback
+import fsspec
+import requests
 
 # import chromedriver_autoinstaller
 
@@ -36,6 +38,15 @@ def get_tokens():
 
     return BNF_USER, BNF_TOKEN, DRIVE_TOKEN
 
+
+def download_pdfs():
+    r = requests.get("https://api.github.com/repos/Thomzoy/press/git/refs/heads/gh-pages")
+    sha = r.json()["object"]["sha"]
+
+    destination = Path("./Journaux_existing")
+    destination.mkdir(exist_ok=True, parents=True)
+    fs = fsspec.filesystem("github", org="Thomzoy", repo="press", sha=sha)
+    fs.get(fs.ls("Journaux/"), destination.as_posix(), recursive=True)
 
 def get_journal():
     BNF_USER, BNF_TOKEN, DRIVE_TOKEN = get_tokens()

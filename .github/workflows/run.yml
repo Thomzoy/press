@@ -53,6 +53,7 @@ jobs:
         with:
           branch: gh-pages
           folder: Journaux/
+          target-folder: Journaux/
           clean: false  # Set to true if you want to remove old files
 #      - name: Mirror Directory Structure
 #        uses: adityak74/google-drive-upload-git-action@main

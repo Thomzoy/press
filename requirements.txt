@@ -9,3 +9,4 @@ pandas < 2.3
 PyMuPDF < 2
 tqdm < 5
 chromedriver-autoinstaller
+fsspec
