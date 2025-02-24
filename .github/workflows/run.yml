@@ -26,7 +26,7 @@ jobs:
           pwd
           mkdir Journaux
           echo "TEST" >> Journaux/test.txt
-          # python run.py
+          python run.py
       - name: Store PDFs as artifacts
         uses: actions/upload-artifact@v4
         with:
