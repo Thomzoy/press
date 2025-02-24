@@ -37,6 +37,8 @@ jobs:
     needs: [create]
     runs-on: ubuntu-latest
     steps:
+      - name: Check out code
+        uses: actions/checkout@v3
       - name: Download PDFs artifact
         uses: actions/download-artifact@v4
         with:
