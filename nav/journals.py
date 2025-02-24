@@ -22,7 +22,6 @@ JOURNALS_FOLDER_ID = defaultdict(
     MSJ_P="ScienceEtVie",
 )
 
-
 def get_last_edition(
     journal_id,
     refresh,

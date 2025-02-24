@@ -52,6 +52,7 @@ class Images:
         self,
         driver: WebDriver,
         journal_id,
+        base_path=BASE_PATH,
         wait_time=10,
         limit=-1,
         do_screenshot=False,
@@ -67,9 +68,9 @@ class Images:
         self.overwrite = overwrite
         self.existing_dates = existing_dates
 
-        self.base_images_path = BASE_PATH / f"{self.journal_name}/images"
+        self.base_images_path = base_path / f"{self.journal_name}/images"
 
-        self.screenshot_path = BASE_PATH / f"{self.journal_name}/screenshots"
+        self.screenshot_path = base_path / f"{self.journal_name}/screenshots"
         if self.do_screenshot:
             self.screenshot_path.mkdir(parents=True, exist_ok=True)
 
