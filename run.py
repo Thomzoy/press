@@ -80,7 +80,7 @@ def get_journal():
                 journal_id=journal_id,
                 credentials=DRIVE_TOKEN,
             )
-            existing_dates = google.get_existing_journal_dates()
+            existing_dates = [] #google.get_existing_journal_dates()
 
             images = Images(
                 driver=driver,
