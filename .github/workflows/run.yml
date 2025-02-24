@@ -50,7 +50,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: journaux/
+          folder: Journaux/
           clean: false  # Set to true if you want to remove old files
 #      - name: Mirror Directory Structure
 #        uses: adityak74/google-drive-upload-git-action@main
