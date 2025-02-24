@@ -39,14 +39,19 @@ def get_tokens():
     return BNF_USER, BNF_TOKEN, DRIVE_TOKEN
 
 
-def download_pdfs():
+def download_existing_pdfs():
     r = requests.get("https://api.github.com/repos/Thomzoy/press/git/refs/heads/gh-pages")
     sha = r.json()["object"]["sha"]
 
-    destination = Path("./Journaux_existing")
-    destination.mkdir(exist_ok=True, parents=True)
-    fs = fsspec.filesystem("github", org="Thomzoy", repo="press", sha=sha)
-    fs.get(fs.ls("Journaux/"), destination.as_posix(), recursive=True)
+
+    for journal_name in JOURNALS_FOLDER_ID.values():
+        destination = Path("./Journaux_existing") / journal_name
+        destination.mkdir(exist_ok=True, parents=True)
+        fs = fsspec.filesystem("github", org="Thomzoy", repo="press", sha=sha)
+        try:
+            fs.get(fs.ls(f"Journaux/{journal_name}"), destination.as_posix(), recursive=True)
+        except FileNotFoundError:
+            print(f"Journal {journal_name} not found in GH-Pages")
 
 def get_journal():
     BNF_USER, BNF_TOKEN, DRIVE_TOKEN = get_tokens()
