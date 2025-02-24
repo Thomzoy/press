@@ -24,7 +24,9 @@ jobs:
         run: |
           echo "Start"
           pwd
-          python run.py
+          mkdir Journaux
+          echo "TEST" >> Journaux/test.txt
+          # python run.py
       - name: Store PDFs as artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -44,11 +46,17 @@ jobs:
         run: |
           pwd
           ls
-      - name: Mirror Directory Structure
-        uses: adityak74/google-drive-upload-git-action@main
+      - name: gh-pages
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          credentials: ${{ secrets.B64_DRIVE_TOKEN }}
-          filename: ./Journaux/*/*.pdf
-          folderId: ${{ secrets.folderId }}
-          overwrite: "false"
-          mirrorDirectoryStructure: "true"
+          branch: gh-pages
+          folder: journaux/
+          clean: false  # Set to true if you want to remove old files
+#      - name: Mirror Directory Structure
+#        uses: adityak74/google-drive-upload-git-action@main
+#        with:
+#          credentials: ${{ secrets.B64_DRIVE_TOKEN }}
+#          filename: ./Journaux/*/*.pdf
+#          folderId: ${{ secrets.folderId }}
+#          overwrite: "false"
+#          mirrorDirectoryStructure: "true"
