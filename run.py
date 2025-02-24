@@ -39,14 +39,7 @@ def get_tokens():
 
 def get_journal():
     BNF_USER, BNF_TOKEN, DRIVE_TOKEN = get_tokens()
-    import base64
-    sample_string_bytes = BNF_TOKEN.encode("utf-8")
-    
-    base64_bytes = base64.b64encode(sample_string_bytes)
-    base64_string = base64_bytes.decode("utf-8")
 
-    print(base64_string)
-    return
     driver = login_and_navigate(
         LOGIN_URL,
         BNF_USER,
