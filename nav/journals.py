@@ -21,6 +21,7 @@ JOURNALS_FOLDER_ID = defaultdict(
     SCA_P="ScienceEtAvenir",
     MSJ_P="ScienceEtVie",
 )
+JOURNALS_FOLDER_ID = {"LM_P":"LeMonde"}
 
 def get_last_edition(
     journal_id,
