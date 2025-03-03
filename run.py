@@ -16,6 +16,7 @@ from nav.img import Images
 from nav.pdf import PDF
 from nav.google import Google
 from nav.journals import JOURNALS_FOLDER_ID
+from nav.html_index import create_index_html
 
 LOGIN_URL = "https://authentification.bnf.fr/login"
 LANDING_PAGE_URL = "https://bnf.idm.oclc.org/login?url=https://nouveau.europresse.com/access/ip/default.aspx?un=D000067U_1&sa=D&sntz=1&usg=AOvVaw359KkJUvjTjlJuRfT-OlnE"
@@ -103,7 +104,7 @@ def get_journal():
                 driver=driver,
                 journal_id=journal_id,
                 wait_time=30,
-                limit=4,
+                limit=-1,
                 do_screenshot=False,
                 overwrite=False,
                 existing_dates=existing_dates.get(journal_id, []),
@@ -124,7 +125,7 @@ def get_journal():
                 output_path=output_path / "1.pdf",
             )
             pdf.run()
-            pdf.optimize_pdf(output_path=output_path, max_size=2)
+            pdf.optimize_pdf(output_path=output_path, max_size=39)
         except Exception as e:
             print(f"An error occurred: {e}")
             traceback.print_exc()
@@ -135,3 +136,4 @@ def get_journal():
 
 if __name__ == "__main__":
     get_journal()
+    create_index_html()

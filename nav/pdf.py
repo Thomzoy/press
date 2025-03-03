@@ -90,7 +90,7 @@ class PDF:
         task.delete_current_task()
 
         compressed_file = final_folder / "compressed.pdf"
-        shutil.move(compressed_file, compressed_file.with_name("journal.pdf"))
+        shutil.move(compressed_file, compressed_file.with_name("1.pdf"))
 
         size_mb = self.get_mb_size(path)
         if size_mb <= max_size:
@@ -119,7 +119,7 @@ class PDF:
         archive_path.unlink()
         path.unlink()
 
-        paths = sorted(Path("./test").glob("*.pdf"), key=lambda path:path.name)
+        paths = sorted(Path(final_folder).glob("*.pdf"), key=lambda path:path.name)
         for idx, path in enumerate(paths):
             shutil.move(path, path.with_stem(str(idx+1)))
 
