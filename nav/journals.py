@@ -18,10 +18,9 @@ JOURNALS_FOLDER_ID = defaultdict(
     IL_P="CourrierInternational",
     MD_P="LeMondeDiplomatique",
     OB_P="NouvelObs",
-    SCA_P="ScienceEtAvenir",
-    MSJ_P="ScienceEtVie",
+    #SCA_P="ScienceEtAvenir",
+    #MSJ_P="ScienceEtVie",
 )
-JOURNALS_FOLDER_ID = {"LM_P":"LeMonde", "HU_P":"Humanite"}
 
 def get_last_edition(
     journal_id,
