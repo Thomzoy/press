@@ -42,8 +42,8 @@ class PDF:
                 height=rect.height,
             )
             page.show_pdf_page(rect, imgPDF, 0)
-            if self.delete_images_when_done:
-                image.unlink()
+        if self.delete_images_when_done:
+            shutil.rmtree(image.parent)
 
         print("Saving...")
         doc.save(self.output_path)
