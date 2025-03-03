@@ -135,5 +135,5 @@ def get_journal():
 
 
 if __name__ == "__main__":
-    #get_journal()
+    get_journal()
     create_index_html()
