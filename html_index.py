@@ -75,7 +75,7 @@ def create_index_html():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Directory Structure Viewer</title>
+    <title>BNF Press</title>
     <style>
         body {
             font-family: Arial, sans-serif;
