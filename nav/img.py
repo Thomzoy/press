@@ -244,7 +244,7 @@ class Images:
                 print("Page error: ", e)
 
         existing_images = get_existing_images(self.images_path)
-        if self.n_pages == len(existing_images):
+        if (self.n_pages == len(existing_images)) or (len(existing_images) == self.limit):
             self.all_saved = True
             print("All pages are saved, skipping scraping !")
             return "done"
@@ -254,6 +254,7 @@ class Images:
                 for (idx, span) in pdf_page_spans
                 if idx not in existing_images
             ]
-            print(f"{len(missing_pages)} pages are missing: {missing_pages}")
+            n = len(missing_pages)
+            print(f"{n} pages are missing: {missing_pages}")
             self.all_saved = False
             return "miss"
