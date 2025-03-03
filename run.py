@@ -16,7 +16,7 @@ from nav.img import Images
 from nav.pdf import PDF
 from nav.google import Google
 from nav.journals import JOURNALS_FOLDER_ID
-from nav.html_index import create_index_html
+from html_index import create_index_html
 
 LOGIN_URL = "https://authentification.bnf.fr/login"
 LANDING_PAGE_URL = "https://bnf.idm.oclc.org/login?url=https://nouveau.europresse.com/access/ip/default.aspx?un=D000067U_1&sa=D&sntz=1&usg=AOvVaw359KkJUvjTjlJuRfT-OlnE"
@@ -135,5 +135,5 @@ def get_journal():
 
 
 if __name__ == "__main__":
-    get_journal()
+    #get_journal()
     create_index_html()
