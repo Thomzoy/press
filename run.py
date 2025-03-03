@@ -7,6 +7,7 @@ import fsspec
 import requests
 from datetime import datetime
 import warnings
+import shutil
 
 # import chromedriver_autoinstaller
 
@@ -27,7 +28,9 @@ os.environ["BNF_TOKEN"] = "Presse écrite BNF 2024"
 def get_tokens():
     BNF_USER = os.environ.get("BNF_USER", None)
     BNF_TOKEN = os.environ.get("BNF_TOKEN", None)
-    return BNF_USER, BNF_TOKEN, None
+    ILOVEPDF_PUBLIC_KEY = os.environ.get("ILOVEPDF_PUBLIC_KEY", None)
+
+    return BNF_USER, BNF_TOKEN, ILOVEPDF_PUBLIC_KEY
     B64_DRIVE_TOKEN = os.environ.get("B64_DRIVE_TOKEN", None)
     if B64_DRIVE_TOKEN is None:
         creds_path = Path("./credentials.json")
@@ -42,37 +45,38 @@ def get_tokens():
     return BNF_USER, BNF_TOKEN, DRIVE_TOKEN
 
 
-def get_all_editions(delete_days_threshold: int = -1):
+def get_all_editions(delete_days_threshold: int = 7):
     r = requests.get("https://api.github.com/repos/Thomzoy/press/git/refs/heads/gh-pages")
     sha = r.json()["object"]["sha"]
 
     all_editions = dict()
     for journal_name in JOURNALS_FOLDER_ID.values():
-        destination = Path("./Journaux_existing") / journal_name
+        editions = []
+        destination = Path("./Journaux") / journal_name
         destination.mkdir(exist_ok=True, parents=True)
         fs = fsspec.filesystem("github", org="Thomzoy", repo="press", sha=sha)
         try:
-            fs.get(fs.ls(f"Journaux/{journal_name}"), destination.as_posix(), recursive=True)
+            fs.get(fs.ls(f"Journaux/{journal_name}"), destination.as_posix(), recursive=False)
         except FileNotFoundError:
             print(f"Journal {journal_name} not found in GH-Pages")
 
-        editions = []
-        pdfs = destination.glob("*.pdf")
-        for pdf in pdfs:
-            date_str = pdf.stem
+        for path in destination.glob("./*"):
+            if path.is_dir():
+                fs.get(fs.ls(f"Journaux/{journal_name}/{path.name}"), path.as_posix(), recursive=False)
+            date_str = path.stem
             date = datetime.strptime(date_str, "%Y-%m-%d")
-            if (datetime.now() - date).days >= delete_days_threshold:
-                pdf.unlink()
-            editions.append(date)
-    
+            if (delete_days_threshold>0) and (datetime.now() - date).days >= delete_days_threshold:
+                print(date, (datetime.now() - date))
+                shutil.rmtree(path)
+            editions.append(date.strftime("%Y-%m-%d"))
         all_editions[journal_name] = editions
     return all_editions
 
 
 def get_journal():
 
-    existing_dates = dict()#get_all_editions()
-    BNF_USER, BNF_TOKEN, DRIVE_TOKEN = get_tokens()
+    existing_dates = get_all_editions()
+    BNF_USER, BNF_TOKEN, ILOVEPDF_PUBLIC_KEY = get_tokens()
 
     driver = login_and_navigate(
         LOGIN_URL,
@@ -115,10 +119,12 @@ def get_journal():
             output_path=images.images_path.parent.parent / images.date
             output_path.mkdir(parents=True, exist_ok=True)
             pdf = PDF(
+                public_key=ILOVEPDF_PUBLIC_KEY,
                 images_path=images.images_path,
                 output_path=output_path / "1.pdf",
             )
             pdf.run()
+            pdf.optimize_pdf(output_path=output_path, max_size=2)
         except Exception as e:
             print(f"An error occurred: {e}")
             traceback.print_exc()
