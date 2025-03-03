@@ -9,7 +9,7 @@ from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
+from PIL import Image
 from bs4 import BeautifulSoup
 
 from dateparser import DateDataParser
@@ -57,6 +57,8 @@ class Images:
         limit=-1,
         do_screenshot=False,
         overwrite=False,
+        compress = -1,
+        grayscale = True,
         existing_dates=[],
     ):
         self.driver = driver
@@ -67,6 +69,8 @@ class Images:
         self.do_screenshot = do_screenshot
         self.overwrite = overwrite
         self.existing_dates = existing_dates
+        self.compress = compress
+        self.grayscale = grayscale
 
         self.base_images_path = base_path / f"{self.journal_name}/images"
 
@@ -220,6 +224,18 @@ class Images:
                 # Decode and save the image
                 with open(image_path, "wb") as file:
                     file.write(base64.b64decode(base64_data))
+
+                if self.grayscale:
+                    print("Converting to grayscale")
+                    with Image.open(image_path) as img:
+                        img.convert('L').save(image_path)
+
+                if self.compress > 0:
+                    print("compressing")
+                    with Image.open(image_path) as img:
+                        rgb_img = img.convert('RGB')
+                        rgb_img.save(image_path.with_suffix(".jpg"), 'JPEG', quality=self.compress)
+                        image_path.unlink()
 
                 if (self.limit > 0) and (page_index >= self.limit):
                     break

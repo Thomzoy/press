@@ -10,3 +10,4 @@ PyMuPDF < 2
 tqdm < 5
 chromedriver-autoinstaller
 fsspec
+git+https://github.com/AndyCyberSec/pylovepdf.git
