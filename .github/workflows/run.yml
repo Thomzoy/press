@@ -15,12 +15,13 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          python -m pip install -r requirements.txt
       - name: Run Python script
         env:
           BNF_USER: ${{ secrets.BNF_USER }}
           BNF_TOKEN: ${{ secrets.BNF_TOKEN }}
           B64_DRIVE_TOKEN: ${{ secrets.B64_DRIVE_TOKEN }}
+          ILOVEPDF_PUBLIC_KEY: ${{ secrets.ILOVEPDF_PUBLIC_KEY }}
         run: |
           echo "Start"
           pwd
