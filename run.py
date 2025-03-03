@@ -87,7 +87,7 @@ def get_journal():
                 journal_id=journal_id,
                 wait_time=30,
                 limit=-1,
-                do_screenshot=True,
+                do_screenshot=False,
                 overwrite=False,
                 existing_dates=existing_dates,
             )
