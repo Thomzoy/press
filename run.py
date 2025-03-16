@@ -66,11 +66,12 @@ def get_all_editions(delete_days_threshold: int = 7):
             if path.is_dir():
                 fs.get(fs.ls(f"Journaux/{journal_name}/{path.name}"), path.as_posix(), recursive=False)
             date_str = path.stem
-            date = datetime.strptime(date_str, "%Y-%m-%d")
-            if (delete_days_threshold>0) and (datetime.now() - date).days >= delete_days_threshold:
-                print(date, (datetime.now() - date))
-                shutil.rmtree(path)
-            editions.append(date.strftime("%Y-%m-%d"))
+            try:
+                date = datetime.strptime(date_str, "%Y-%m-%d")
+                if (delete_days_threshold>0) and (datetime.now() - date).days >= delete_days_threshold:
+                    print(date, (datetime.now() - date))
+                    shutil.rmtree(path)
+                editions.append(date.strftime("%Y-%m-%d"))
         all_editions[journal_name] = editions
     return all_editions
 
