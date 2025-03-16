@@ -72,6 +72,8 @@ def get_all_editions(delete_days_threshold: int = 7):
                     print(date, (datetime.now() - date))
                     shutil.rmtree(path)
                 editions.append(date.strftime("%Y-%m-%d"))
+            except Exception as e:
+                print("Date parse error: ", str(e))
         all_editions[journal_name] = editions
     return all_editions
 
