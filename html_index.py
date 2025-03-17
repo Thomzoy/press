@@ -44,7 +44,7 @@ def generate_html_structure(structure, indent=0):
         if info['type'] == 'pdf':  # It's a PDF file
             # Make the PDF file clickable with its relative path
             html += f'{indent_str}<li class="file pdf"><a href="{info["path"]}" target="_blank"><span class="pdf-icon">📄</span> {name}</a></li>\n'
-        else:  # It's a directory
+        elif name.strip() != "images":  # It's a directory
             html += f'{indent_str}<li class="folder"><span class="folder-icon">📁</span> {name}\n'
             html += f'{indent_str}  <ul>\n'
             html += generate_html_structure(info['content'], indent + 2)
