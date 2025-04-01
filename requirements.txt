@@ -9,6 +9,6 @@ pandas < 2.3
 PyMuPDF < 2
 tqdm < 5
 chromedriver-autoinstaller
-fsspec
+fsspec[http]
 Pillow
 git+https://github.com/AndyCyberSec/pylovepdf.git
