@@ -88,6 +88,12 @@ def get_journal():
         TARGET_PAGES,
     )
     print("Done")
+
+    GH_TOKEN = os.environ.get("GH_TOKEN", None)
+    g = Github(GH_TOKEN)
+    repo = g.get_repo("Thomzoy/press")
+    base = Path("./Journaux/")
+
     for journal_id in JOURNALS_FOLDER_ID.keys():
         print(f"Getting journal {journal_id}")
         if not driver.service.is_connectable():
@@ -127,7 +133,7 @@ def get_journal():
                 output_path=output_path / "1.pdf",
             )
             pdf.run()
-            pdf.optimize_pdf(output_path=output_path, max_size=39)
+            final_folder = pdf.optimize_pdf(output_path=output_path, max_size=39)
         except Exception as e:
             print(f"An error occurred: {e}")
             traceback.print_exc()
@@ -140,7 +146,6 @@ def upload_journal():
     GH_TOKEN = os.environ.get("GH_TOKEN", None)
     g = Github(GH_TOKEN)
     repo = g.get_repo("Thomzoy/press")
-
     base = Path("./Journaux/")
     for path in base.glob("**/*"):
         if (path.is_file() & path.name.endswith("pdf")):
@@ -156,5 +161,6 @@ def upload_journal():
 
 if __name__ == "__main__":
     get_journal()
+    upload_journal()
     create_index_html()
     #get_all("./esketit")
