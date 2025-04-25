@@ -152,12 +152,15 @@ def upload_journal():
             content = path.read_bytes()
             remote_path = str(path)
             print(f"Upload {remote_path}")
-            repo.create_file(
-                remote_path,
-                message=f"Upload {remote_path}",
-                content=content,
-                branch="gh-pages"
-            )
+            try:
+                repo.create_file(
+                    remote_path,
+                    message=f"Upload {remote_path}",
+                    content=content,
+                    branch="gh-pages"
+                )
+            except Exception as e:
+                print(e)
 
 if __name__ == "__main__":
     get_journal()
