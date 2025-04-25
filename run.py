@@ -78,7 +78,7 @@ def get_all_editions(delete_days_threshold: int = 7, dry: bool = False):
 
 def get_journal():
 
-    existing_dates = get_all_editions(delete_days_threshold=40) # TODO: Change to 7
+    existing_dates = get_all_editions(delete_days_threshold=7) # TODO: Change to 7
     BNF_USER, BNF_TOKEN, ILOVEPDF_PUBLIC_KEY = get_tokens()
 
     driver = login_and_navigate(
