@@ -58,9 +58,8 @@ def get_all_editions(delete_days_threshold: int = 7, dry: bool = False):
                 date = datetime.strptime(Path(file_content.path).parent.name, "%Y-%m-%d")
                 journal_name = Path(file_content.path).parent.parent.name
                 all_editions[journal_name] = all_editions.get(journal_name, set())
-                all_editions[journal_name].add(date)
+                all_editions[journal_name].add(date.strftime("%Y-%m-%d"))
                 delta = (datetime.now() - date).days
-                print(date, delta)
                 if (delete_days_threshold>0) and delta >= delete_days_threshold:
                     print("Deleting: ", file_content.path)
                     if not dry:
@@ -73,6 +72,7 @@ def get_all_editions(delete_days_threshold: int = 7, dry: bool = False):
             except Exception as e:
                 print(e)
 
+    print("Existing journals: ", all_editions)
     return all_editions
 
 
@@ -94,7 +94,7 @@ def get_journal():
     repo = g.get_repo("Thomzoy/press")
     base = Path("./Journaux/")
 
-    for journal_id in JOURNALS_FOLDER_ID.keys():
+    for journal_id, journal_name in JOURNALS_FOLDER_ID.items():
         print(f"Getting journal {journal_id}")
         if not driver.service.is_connectable():
             print("Reconnecting driver...")
@@ -115,7 +115,7 @@ def get_journal():
                 limit=-1,
                 do_screenshot=False,
                 overwrite=False,
-                existing_dates=existing_dates.get(journal_id, []),
+                existing_dates=existing_dates.get(journal_name, []),
             )
             result = images.run(n_try=4)
             if result == "skip":
