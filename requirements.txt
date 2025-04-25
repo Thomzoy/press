@@ -1,8 +1,15 @@
-google-api-python-client < 3
-google-auth-httplib2 < 0.3
-google-auth-oauthlib < 1.3
+#google-api-python-client < 3
+#google-auth-httplib2 < 0.3
+#google-auth-oauthlib < 1.3
+webdriver-manager
 selenium < 5
 beautifulsoup4 < 5
 dateparser < 1.3
 pandas < 2.3
 PyMuPDF < 2
+tqdm < 5
+#chromedriver-autoinstaller
+fsspec[http]
+Pillow
+git+https://github.com/AndyCyberSec/pylovepdf.git
+PyGithub

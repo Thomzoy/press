@@ -1,25 +1,26 @@
 from collections import defaultdict
-
-from bs4 import BeautifulSoup
 import json
 
+from bs4 import BeautifulSoup
 import pandas as pd
-
-# MD_P : Le monde diplo
-# IL_P : courrier international
-# HU_P : humanité
 
 JOURNAL_PATH = "journals.csv"
 JOURNAL_SEARCH_URL = (
     "https://nouveau-europresse-com.bnf.idm.oclc.org/Pdf/GetInitialResults"
 )
 JOURNAL_URL = "https://nouveau-europresse-com.bnf.idm.oclc.org/Pdf/Edition?sourceCode={journal_id}"
+BASE_JOURNAL_DRIVE_FOLDER = "1WtI0PsYLENi3pijdLNDrSyj95AHQHDwi"
 JOURNALS_FOLDER_ID = defaultdict(
-    lambda: "1cX0ZYAPCH5QMPzjwNiDdo6jijRRL5_MY",
-    LM_P="1U7WvK7krTk_szGl62hqoJmdhYBe-Mm0Z",
-    LI_P="1qSnTfziuScpDOKoCEkZLZLwAPc9QqRAY",
+    lambda: "Inconnu",
+    LM_P="LeMonde",
+    LI_P="Liberation",
+    HU_P="Humanite",
+    IL_P="CourrierInternational",
+    MD_P="LeMondeDiplomatique",
+    OB_P="NouvelObs",
+    #SCA_P="ScienceEtAvenir",
+    #MSJ_P="ScienceEtVie",
 )
-
 
 def get_last_edition(
     journal_id,

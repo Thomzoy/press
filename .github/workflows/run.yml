@@ -1,0 +1,72 @@
+name: Create PDFs
+
+on:
+  schedule:
+   - cron: '0 3 * * *' # Midnight
+  workflow_dispatch:
+
+jobs:
+  create:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+      - name: Run Python script
+        env:
+          BNF_USER: ${{ secrets.BNF_USER }}
+          BNF_TOKEN: ${{ secrets.BNF_TOKEN }}
+          B64_DRIVE_TOKEN: ${{ secrets.B64_DRIVE_TOKEN }}
+          ILOVEPDF_PUBLIC_KEY: ${{ secrets.ILOVEPDF_PUBLIC_KEY }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          echo "Start"
+          pwd
+          python run.py
+      - name: Store PDFs as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: pdfs-folders
+          path: Journaux
+
+  upload:
+    needs: [create]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Download PDFs artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: pdfs-folders
+          path: Journaux
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Show structure
+        run: |
+          pwd
+          ls
+      # - name: Download existing PDFs
+      #   run: |
+      #     python get_existing.py
+      # - name: gh-pages
+      #   uses: JamesIves/github-pages-deploy-action@v4
+      #   with:
+      #     branch: gh-pages
+      #     folder: Journaux/
+      #     target-folder: Journaux/
+      #     clean: false  # Set to true if you want to remove old files
+#      - name: Mirror Directory Structure
+#        uses: adityak74/google-drive-upload-git-action@main
+#        with:
+#          credentials: ${{ secrets.B64_DRIVE_TOKEN }}
+#          filename: ./Journaux/*/*.pdf
+#          folderId: ${{ secrets.folderId }}
+#          overwrite: "false"
+#          mirrorDirectoryStructure: "true"

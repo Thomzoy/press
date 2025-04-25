@@ -9,15 +9,15 @@ from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
+from PIL import Image
 from bs4 import BeautifulSoup
 
 from dateparser import DateDataParser
 
 # from .pdf import make_pdf
-from .journals import JOURNAL_URL
+from .journals import JOURNAL_URL, JOURNALS_FOLDER_ID
 
-BASE_PATH = Path("journals").resolve()
+BASE_PATH = Path("Journaux").resolve()
 
 
 class src_change(object):
@@ -52,24 +52,31 @@ class Images:
         self,
         driver: WebDriver,
         journal_id,
+        base_path=BASE_PATH,
         wait_time=10,
         limit=-1,
         do_screenshot=False,
         overwrite=False,
+        compress = -1,
+        grayscale = True,
         existing_dates=[],
     ):
         self.driver = driver
         self.journal_id = journal_id
+        self.journal_name = JOURNALS_FOLDER_ID[journal_id]
         self.wait_time = wait_time
         self.limit = limit
         self.do_screenshot = do_screenshot
         self.overwrite = overwrite
         self.existing_dates = existing_dates
+        self.compress = compress
+        self.grayscale = grayscale
 
-        self.base_images_path = BASE_PATH / f"{journal_id}/images"
+        self.base_images_path = base_path / f"{self.journal_name}/images"
 
-        self.screenshot_path = BASE_PATH / f"{journal_id}/screenshots"
-        self.screenshot_path.mkdir(parents=True, exist_ok=True)
+        self.screenshot_path = base_path / f"{self.journal_name}/screenshots"
+        if self.do_screenshot:
+            self.screenshot_path.mkdir(parents=True, exist_ok=True)
 
         self.journal_url = JOURNAL_URL.format(journal_id=journal_id)
         self.all_saved = True
@@ -110,7 +117,7 @@ class Images:
         self.images_path.mkdir(parents=True, exist_ok=True)
 
         if self.date in self.existing_dates:
-            print(f"Edition from {self.journal_id} / {self.date} already saved !")
+            print(f"Edition from {self.journal_name} / {self.date} already saved !")
             return "skip"
 
         existing_images = (
@@ -153,7 +160,6 @@ class Images:
             if page_index in existing_images:
                 print("Page already exists, skipping")
                 continue
-
             try:
                 parent_li = span.find_element(By.XPATH, "./ancestor::li")
                 print(parent_li.is_displayed())
@@ -190,14 +196,13 @@ class Images:
 
                 img = self.driver.find_element(By.CLASS_NAME, "viewer-move")
                 n_try = 0
-                while img.get_attribute("src") == img_src:
+                while (img.get_attribute("src") == img_src) and (n_try <= 5):
                     print(f"Try n° {n_try}")
                     time.sleep(2)
                     img = self.driver.find_element(By.CLASS_NAME, "viewer-move")
                     n_try += 1
-                    if n_try > 5:
+                    if n_try == 5:
                         print("No source change")
-                        continue
 
                 # wait = WebDriverWait(driver, 10)
                 # img = wait.until(
@@ -220,6 +225,18 @@ class Images:
                 with open(image_path, "wb") as file:
                     file.write(base64.b64decode(base64_data))
 
+                if self.grayscale:
+                    print("Converting to grayscale")
+                    with Image.open(image_path) as img:
+                        img.convert('L').save(image_path)
+
+                if self.compress > 0:
+                    print("compressing")
+                    with Image.open(image_path) as img:
+                        rgb_img = img.convert('RGB')
+                        rgb_img.save(image_path.with_suffix(".jpg"), 'JPEG', quality=self.compress)
+                        image_path.unlink()
+
                 if (self.limit > 0) and (page_index >= self.limit):
                     break
             except Exception as e:
@@ -227,7 +244,7 @@ class Images:
                 print("Page error: ", e)
 
         existing_images = get_existing_images(self.images_path)
-        if self.n_pages == len(existing_images):
+        if (self.n_pages == len(existing_images)) or (len(existing_images) == self.limit):
             self.all_saved = True
             print("All pages are saved, skipping scraping !")
             return "done"
@@ -237,6 +254,7 @@ class Images:
                 for (idx, span) in pdf_page_spans
                 if idx not in existing_images
             ]
-            print(f"{len(missing_pages)} pages are missing: {missing_pages}")
+            n = len(missing_pages)
+            print(f"{n} pages are missing: {missing_pages}")
             self.all_saved = False
             return "miss"

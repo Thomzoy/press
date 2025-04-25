@@ -1,3 +1,4 @@
+import traceback
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -11,11 +12,15 @@ def setup_headless_browser():
     chrome_options = Options()
     chrome_options.add_argument("--headless")  # Run in background
     chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--enable-logging")
+    chrome_options.add_argument("--ignore-certificate-errors")
+    chrome_options.add_argument('--remote-debugging-pipe')
+    chrome_options.add_argument('--ignore-urlfetcher-cert-requests')
+    chrome_options.add_argument('--allow-insecure-localhost')
+    # chrome_options.add_argument("--disable-dev-shm-usage")
+    # chrome_options.add_argument("--enable-logging")
     chrome_options.add_argument("--v=1")
-    chrome_options.set_capability("goog:loggingPrefs", {"performance": "ALL"})
-    chrome_options.add_experimental_option("perfLoggingPrefs", {"enableNetwork": True})
+    # chrome_options.set_capability("goog:loggingPrefs", {"performance": "ALL"})
+    # chrome_options.add_experimental_option("perfLoggingPrefs", {"enableNetwork": True})
 
     driver = webdriver.Chrome(options=chrome_options)
 
@@ -78,6 +83,7 @@ def login_and_navigate(
             fct(driver)
 
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f"An login error occurred: {e}")
+        traceback.print_exc()
 
     return driver
