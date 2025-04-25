@@ -47,7 +47,7 @@ def get_all_editions(delete_days_threshold: int = 7, dry: bool = False):
     GH_TOKEN = os.environ.get("GH_TOKEN", None)
     g = Github(GH_TOKEN)
     repo = g.get_repo("Thomzoy/press")
-    contents = repo.get_contents("Journaux/NouvelObs", ref="gh-pages")
+    contents = repo.get_contents("Journaux", ref="gh-pages")
 
     while contents:
         file_content = contents.pop(0)
