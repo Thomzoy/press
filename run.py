@@ -15,6 +15,7 @@ from nav.pdf import PDF
 # from nav.google import Google
 from nav.journals import JOURNALS_FOLDER_ID
 from html_index import create_index_html
+from index import generate_index
 from loan import get_all
 
 LOGIN_URL = "https://authentification.bnf.fr/login"
@@ -57,8 +58,12 @@ def get_all_editions(delete_days_threshold: int = 7, dry: bool = False):
             try:
                 date = datetime.strptime(Path(file_content.path).parent.name, "%Y-%m-%d")
                 journal_name = Path(file_content.path).parent.parent.name
-                all_editions[journal_name] = all_editions.get(journal_name, set())
-                all_editions[journal_name].add(date.strftime("%Y-%m-%d"))
+                all_editions[journal_name] = all_editions.get(journal_name, dict())
+                date_str = date.strftime("%Y-%m-%d")
+                all_editions[journal_name][date_str] = all_editions[journal_name].get(date_str, [])
+                all_editions[journal_name][date_str].append(
+                    str(Path(file_content.path).relative_to("Journaux/"))
+                )
                 delta = (datetime.now() - date).days
                 if (delete_days_threshold>0) and delta >= delete_days_threshold:
                     print("Deleting: ", file_content.path)
@@ -115,7 +120,7 @@ def get_journal():
                 limit=-1,
                 do_screenshot=False,
                 overwrite=False,
-                existing_dates=existing_dates.get(journal_name, []),
+                existing_dates=list(existing_dates.get(journal_name, dict()).keys()),
             )
             result = images.run(n_try=4)
             if result == "skip":
@@ -165,5 +170,8 @@ def upload_journal():
 if __name__ == "__main__":
     get_journal()
     upload_journal()
-    create_index_html()
+
+    existing = get_all_editions(-1, dry=True)
+    generate_index(existing)
+    #create_index_html()
     #get_all("./esketit")
