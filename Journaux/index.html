@@ -1,195 +1,189 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BNF Press</title>
+    <title>Presse</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            line-height: 1.6;
-        }
-        h1 {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
             color: #333;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
         }
+        
+        h2 {
+            color: #1a3c5e;
+            border-bottom: 2px solid #1a3c5e;
+            padding-bottom: 8px;
+            margin-top: 30px;
+            font-weight: 600;
+        }
+        
         ul {
             list-style-type: none;
-            padding-left: 20px;
+            padding-left: 15px;
         }
-        li {
-            margin: 5px 0;
+        
+        .newspaper-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
+        
         .folder {
-            font-weight: bold;
-            cursor: pointer;
+            margin: 10px 0;
+            font-weight: 500;
+            color: #2c3e50;
         }
+        
+        .folder-icon {
+            margin-right: 8px;
+            color: #e67e22;
+        }
+        
         .file {
-            font-weight: normal;
+            margin: 5px 0 5px 25px;
+            transition: transform 0.2s;
         }
-        .pdf {
-            color: #C00;
+        
+        .file:hover {
+            transform: translateX(5px);
         }
-        .pdf a {
-            color: #C00;
+        
+        .pdf-icon {
+            margin-right: 8px;
+            color: #e74c3c;
+        }
+        
+        a {
             text-decoration: none;
+            color: #3498db;
+            transition: color 0.2s;
         }
-        .pdf a:hover {
+        
+        a:hover {
+            color: #2980b9;
             text-decoration: underline;
         }
-        .folder-icon, .pdf-icon {
-            margin-right: 5px;
+        
+        .date-label {
+            background-color: #f0f7ff;
+            border-radius: 4px;
+            padding: 3px 8px;
+            font-size: 0.9em;
+            color: #1a3c5e;
         }
-        /* Add JavaScript to make folders collapsible */
-        .folder > ul {
-            display: block;
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .header-desc {
+            color: #7f8c8d;
+            font-style: italic;
         }
     </style>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add click event to all folder elements
-            document.querySelectorAll('.folder').forEach(folder => {
-                folder.addEventListener('click', function(event) {
-                    // Only toggle if the click was directly on this element or its folder icon/text
-                    if (event.target === this || 
-                        event.target.classList.contains('folder-icon') || 
-                        (event.target.parentNode === this && event.target.nodeName !== 'A')) {
-                        
-                        // Toggle visibility of the child ul element
-                        const ul = this.querySelector('ul');
-                        if (ul) {
-                            ul.style.display = ul.style.display === 'none' ? 'block' : 'none';
-                        }
-                        
-                        // Stop event propagation to prevent parent folders from collapsing
-                        event.stopPropagation();
-                    }
-                });
-            });
-            
-            // Prevent clicks on PDF links from toggling parent folders
-            document.querySelectorAll('.pdf a').forEach(link => {
-                link.addEventListener('click', function(event) {
-                    event.stopPropagation();
-                });
-            });
-        });
-    </script>
 </head>
 <body>
-    <h1>Presse</h1>
-    <div class="directory-tree">
-        <ul>
-            <li class="folder"><span class="folder-icon">📁</span> CourrierInternational
-  <ul>
-    <li class="folder"><span class="folder-icon">📁</span> 2025-03-27
-      <ul>
-        <li class="file pdf"><a href="CourrierInternational/2025-03-27/1.pdf" target="_blank"><span class="pdf-icon">📄</span> 1.pdf</a></li>
-      </ul>
-    </li>
-  </ul>
-</li>
-<li class="folder"><span class="folder-icon">📁</span> Humanite
-  <ul>
-    <li class="folder"><span class="folder-icon">📁</span> 2025-03-21
-      <ul>
-        <li class="file pdf"><a href="Humanite/2025-03-21/1.pdf" target="_blank"><span class="pdf-icon">📄</span> 1.pdf</a></li>
-      </ul>
-    </li>
-    <li class="folder"><span class="folder-icon">📁</span> 2025-03-24
-      <ul>
-        <li class="file pdf"><a href="Humanite/2025-03-24/1.pdf" target="_blank"><span class="pdf-icon">📄</span> 1.pdf</a></li>
-      </ul>
-    </li>
-    <li class="folder"><span class="folder-icon">📁</span> 2025-03-25
-      <ul>
-        <li class="file pdf"><a href="Humanite/2025-03-25/1.pdf" target="_blank"><span class="pdf-icon">📄</span> 1.pdf</a></li>
-      </ul>
-    </li>
-    <li class="folder"><span class="folder-icon">📁</span> 2025-03-26
-      <ul>
-        <li class="file pdf"><a href="Humanite/2025-03-26/1.pdf" target="_blank"><span class="pdf-icon">📄</span> 1.pdf</a></li>
-      </ul>
-    </li>
-    <li class="folder"><span class="folder-icon">📁</span> 2025-03-27
-      <ul>
-      </ul>
-    </li>
-  </ul>
-</li>
-<li class="folder"><span class="folder-icon">📁</span> LeMonde
-  <ul>
-    <li class="folder"><span class="folder-icon">📁</span> 2025-03-21
-      <ul>
-        <li class="file pdf"><a href="LeMonde/2025-03-21/1.pdf" target="_blank"><span class="pdf-icon">📄</span> 1.pdf</a></li>
-      </ul>
-    </li>
-    <li class="folder"><span class="folder-icon">📁</span> 2025-03-22
-      <ul>
-        <li class="file pdf"><a href="LeMonde/2025-03-22/1.pdf" target="_blank"><span class="pdf-icon">📄</span> 1.pdf</a></li>
-      </ul>
-    </li>
-    <li class="folder"><span class="folder-icon">📁</span> 2025-03-24
-      <ul>
-        <li class="file pdf"><a href="LeMonde/2025-03-24/1.pdf" target="_blank"><span class="pdf-icon">📄</span> 1.pdf</a></li>
-      </ul>
-    </li>
-    <li class="folder"><span class="folder-icon">📁</span> 2025-03-25
-      <ul>
-        <li class="file pdf"><a href="LeMonde/2025-03-25/1.pdf" target="_blank"><span class="pdf-icon">📄</span> 1.pdf</a></li>
-      </ul>
-    </li>
-    <li class="folder"><span class="folder-icon">📁</span> 2025-03-26
-      <ul>
-      </ul>
-    </li>
-  </ul>
-</li>
-<li class="folder"><span class="folder-icon">📁</span> LeMondeDiplomatique
-  <ul>
-  </ul>
-</li>
-<li class="folder"><span class="folder-icon">📁</span> Liberation
-  <ul>
-    <li class="folder"><span class="folder-icon">📁</span> 2025-03-21
-      <ul>
-        <li class="file pdf"><a href="Liberation/2025-03-21/1.pdf" target="_blank"><span class="pdf-icon">📄</span> 1.pdf</a></li>
-      </ul>
-    </li>
-    <li class="folder"><span class="folder-icon">📁</span> 2025-03-22
-      <ul>
-        <li class="file pdf"><a href="Liberation/2025-03-22/1.pdf" target="_blank"><span class="pdf-icon">📄</span> 1.pdf</a></li>
-      </ul>
-    </li>
-    <li class="folder"><span class="folder-icon">📁</span> 2025-03-24
-      <ul>
-        <li class="file pdf"><a href="Liberation/2025-03-24/1.pdf" target="_blank"><span class="pdf-icon">📄</span> 1.pdf</a></li>
-      </ul>
-    </li>
-    <li class="folder"><span class="folder-icon">📁</span> 2025-03-25
-      <ul>
-        <li class="file pdf"><a href="Liberation/2025-03-25/1.pdf" target="_blank"><span class="pdf-icon">📄</span> 1.pdf</a></li>
-      </ul>
-    </li>
-    <li class="folder"><span class="folder-icon">📁</span> 2025-03-26
-      <ul>
-        <li class="file pdf"><a href="Liberation/2025-03-26/1.pdf" target="_blank"><span class="pdf-icon">📄</span> 1.pdf</a></li>
-      </ul>
-    </li>
-    <li class="folder"><span class="folder-icon">📁</span> 2025-03-27
-      <ul>
-      </ul>
-    </li>
-  </ul>
-</li>
-<li class="folder"><span class="folder-icon">📁</span> NouvelObs
-  <ul>
-  </ul>
-</li>
+    <header>
+        <h1>Presse</h1>
+        <p class="header-desc">BNF - Europresse</p>
+    </header>
+<h2>CourrierInternational</h2>
 
-        </ul>
-    </div>
+<div class="newspaper-section"><li class="folder"><span class="folder-icon">📁</span>2025-04-30
+<ul>
+<li class="file pdf"><a href="CourrierInternational/2025-04-30/1.pdf" target="_blank"><span class="pdf-icon">📄</span>1.pdf</a></li>
+</ul>
+</li>
+</div>
+<h2>Humanite</h2>
+
+<div class="newspaper-section"><li class="folder"><span class="folder-icon">📁</span>2025-04-30
+<ul>
+<li class="file pdf"><a href="Humanite/2025-04-30/1.pdf" target="_blank"><span class="pdf-icon">📄</span>1.pdf</a></li>
+</ul>
+</li>
+<li class="folder"><span class="folder-icon">📁</span>2025-05-02
+<ul>
+<li class="file pdf"><a href="Humanite/2025-05-02/1.pdf" target="_blank"><span class="pdf-icon">📄</span>1.pdf</a></li>
+</ul>
+</li>
+<li class="folder"><span class="folder-icon">📁</span>2025-05-05
+<ul>
+<li class="file pdf"><a href="Humanite/2025-05-05/1.pdf" target="_blank"><span class="pdf-icon">📄</span>1.pdf</a></li>
+</ul>
+</li>
+</div>
+<h2>LeMonde</h2>
+
+<div class="newspaper-section"><li class="folder"><span class="folder-icon">📁</span>2025-04-29
+<ul>
+<li class="file pdf"><a href="LeMonde/2025-04-29/1.pdf" target="_blank"><span class="pdf-icon">📄</span>1.pdf</a></li>
+</ul>
+</li>
+<li class="folder"><span class="folder-icon">📁</span>2025-04-30
+<ul>
+<li class="file pdf"><a href="LeMonde/2025-04-30/1.pdf" target="_blank"><span class="pdf-icon">📄</span>1.pdf</a></li>
+</ul>
+</li>
+<li class="folder"><span class="folder-icon">📁</span>2025-05-02
+<ul>
+<li class="file pdf"><a href="LeMonde/2025-05-02/1.pdf" target="_blank"><span class="pdf-icon">📄</span>1.pdf</a></li>
+</ul>
+</li>
+<li class="folder"><span class="folder-icon">📁</span>2025-05-03
+<ul>
+<li class="file pdf"><a href="LeMonde/2025-05-03/1.pdf" target="_blank"><span class="pdf-icon">📄</span>1.pdf</a></li>
+</ul>
+</li>
+</div>
+<h2>LeMondeDiplomatique</h2>
+
+<div class="newspaper-section"><li class="folder"><span class="folder-icon">📁</span>2025-05-01
+<ul>
+<li class="file pdf"><a href="LeMondeDiplomatique/2025-05-01/1.pdf" target="_blank"><span class="pdf-icon">📄</span>1.pdf</a></li>
+</ul>
+</li>
+</div>
+<h2>Liberation</h2>
+
+<div class="newspaper-section"><li class="folder"><span class="folder-icon">📁</span>2025-04-30
+<ul>
+<li class="file pdf"><a href="Liberation/2025-04-30/1.pdf" target="_blank"><span class="pdf-icon">📄</span>1.pdf</a></li>
+</ul>
+</li>
+<li class="folder"><span class="folder-icon">📁</span>2025-05-02
+<ul>
+<li class="file pdf"><a href="Liberation/2025-05-02/1.pdf" target="_blank"><span class="pdf-icon">📄</span>1.pdf</a></li>
+</ul>
+</li>
+<li class="folder"><span class="folder-icon">📁</span>2025-05-05
+<ul>
+<li class="file pdf"><a href="Liberation/2025-05-05/1.pdf" target="_blank"><span class="pdf-icon">📄</span>1.pdf</a></li>
+</ul>
+</li>
+</div>
+<h2>NouvelObs</h2>
+
+<div class="newspaper-section"><li class="folder"><span class="folder-icon">📁</span>2025-05-01
+<ul>
+<li class="file pdf"><a href="NouvelObs/2025-05-01/1.pdf" target="_blank"><span class="pdf-icon">📄</span>1.pdf</a></li>
+</ul>
+</li>
+</div>
+
 </body>
 </html>
