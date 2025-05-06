@@ -153,25 +153,44 @@ def upload_journal():
     repo = g.get_repo("Thomzoy/press")
     base = Path("./Journaux/")
     for path in base.glob("**/*"):
-        if (path.is_file() & path.name.endswith("pdf")):
+        if path.is_file():
             content = path.read_bytes()
-            remote_path = str(path)
-            print(f"Upload {remote_path}")
             try:
-                repo.create_file(
-                    remote_path,
-                    message=f"Upload {remote_path}",
-                    content=content,
-                    branch="gh-pages"
-                )
+                if path.name.endswith("pdf"):
+                    remote_path = str(path)
+                    print(f"Upload {remote_path}")
+                    repo.create_file(
+                        remote_path,
+                        message=f"Upload {remote_path}",
+                        content=content,
+                        branch="gh-pages"
+                    )
             except Exception as e:
                 print(e)
+
+def upload_index():
+
+    GH_TOKEN = os.environ.get("GH_TOKEN", None)
+    g = Github(GH_TOKEN)
+    repo = g.get_repo("Thomzoy/press")
+    path = Path("./Journaux/index.html")
+    try:
+        remote_content = repo.get_contents(str(path), ref="gh-pages")
+        repo.update_file(
+            remote_content.path, 
+            message="Update index.html",
+            content=path.read_bytes(), 
+            sha=remote_content.sha,
+            branch="gh-pages",
+        )
+    except Exception as e:
+        print(e)
 
 if __name__ == "__main__":
     get_journal()
     upload_journal()
-
     existing = get_all_editions(-1, dry=True)
     generate_index(existing)
+    upload_index()
     #create_index_html()
     #get_all("./esketit")
